@@ -1,5 +1,5 @@
-add_library(kosmic_field STATIC
-    src/placeholder.cpp
+add_library(KosmicField STATIC
+  src/Field.cpp
 )
-target_include_directories(kosmic_field PUBLIC include)
-target_link_libraries(kosmic_field PUBLIC kosmic_math)
+target_include_directories(KosmicField PUBLIC include)
+target_link_libraries(KosmicField PUBLIC KosmicMath)

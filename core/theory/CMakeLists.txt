@@ -1,2 +1,2 @@
 add_subdirectory(interface)
-add_subdirectory(abelian_higgs)
+add_subdirectory(fields)

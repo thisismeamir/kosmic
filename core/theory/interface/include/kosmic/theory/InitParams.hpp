@@ -14,10 +14,22 @@
  * limitations under the License.
  */
 // SPDX-License-Identifier: Apache-2.0
+
 #pragma once
 
-// core/theory/abelian_higgs: complex scalar + U(1) gauge field theory,
-// implemented against kosmic::theory's TheoryInterface.
-namespace kosmic::theory::abelianHiggs {
+namespace kosmic::theory {
+
+enum InitMode {
+  Vacuum, Thermal, SeededDefects
+};
+
+struct InitParams {
+  InitMode mode = InitMode::Vacuum;
+  unsigned long seed = 0;
+  // For Thermal mode
+  double temperature = 0.0;
+  // For SeededDefects mode
+  unsigned int defecCount = 0;
+};
 
 }

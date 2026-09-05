@@ -14,10 +14,26 @@
  * limitations under the License.
  */
 // SPDX-License-Identifier: Apache-2.0
-#pragma once
+#include <kosmic/theory/TheoryInterface.hpp>
 
-// core/theory/abelian_higgs: complex scalar + U(1) gauge field theory,
-// implemented against kosmic::theory's TheoryInterface.
-namespace kosmic::theory::abelianHiggs {
 
+
+namespace kosmic::theory {
+
+TheoryParameters::TheoryParameters(Constants constants,
+                                    IndependentParameters iParams)
+    : constants_(std::move(constants)),
+      independent_(std::move(iParams)),
+      derived_() {}
+
+const Constants& TheoryParameters::constants() const { return constants_; }
+
+const IndependentParameters& TheoryParameters::independent() const {
+    return independent_;
 }
+
+const DerivedParameters& TheoryParameters::derived() const {
+    return derived_;
+}
+
+}  // namespace kosmic::theory

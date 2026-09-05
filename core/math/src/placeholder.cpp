@@ -1,2 +1,2 @@
-#include "kosmic/math/placeholder.hpp"
+#include "kosmic/math/Finitedifference.hpp"
 // TODO: finite-difference stencils, linear algebra helpers.

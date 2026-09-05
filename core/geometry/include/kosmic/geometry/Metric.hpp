@@ -15,9 +15,25 @@
  */
 // SPDX-License-Identifier: Apache-2.0
 #pragma once
-
-// core/theory/abelian_higgs: complex scalar + U(1) gauge field theory,
-// implemented against kosmic::theory's TheoryInterface.
-namespace kosmic::theory::abelianHiggs {
-
-}
+#include <cmath>
+namespace kosmic::geometry {
+class FlatMetric {
+  public:
+    double ScaleFactor(double time) const { return 1.0; }
+    double ScaleFactorDot(double time) const { return 0.0; }
+};
+class AnalyticFlrwMetric {
+  public:
+    AnalyticFlrwMetric(double a0, double t0, double p) : a0_(a0), t0_(t0), p_(p) {}
+    double ScaleFactor(double time) const {
+        return a0_ * std::pow(time / t0_, p_);
+    }
+    double ScaleFactorDot(double time) const {
+        return a0_ * p_ / t0_ * std::pow(time / t0_, p_ - 1.0);
+    }
+  private:
+    double a0_;
+    double t0_;
+    double p_;
+};
+} // namespace kosmic::geometry

@@ -49,7 +49,8 @@ endif()
 
 add_subdirectory(core)
 add_subdirectory(storage)
-
+add_subdirectory(templates)
+add_subdirectory(examples)
 if(KOSMIC_BUILD_AUGMENT)
     add_subdirectory(augment)
 endif()

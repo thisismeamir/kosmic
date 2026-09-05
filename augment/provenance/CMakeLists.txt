@@ -1,0 +1,5 @@
+add_library(kosmic_augment_provenance STATIC
+    src/placeholder.cpp
+)
+target_include_directories(kosmic_augment_provenance PUBLIC include)
+target_link_libraries(kosmic_augment_provenance PUBLIC kosmic_storage_manager)

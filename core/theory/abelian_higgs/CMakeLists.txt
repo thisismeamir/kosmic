@@ -1,0 +1,5 @@
+add_library(kosmic_theory_abelian_higgs STATIC
+    src/placeholder.cpp
+)
+target_include_directories(kosmic_theory_abelian_higgs PUBLIC include)
+target_link_libraries(kosmic_theory_abelian_higgs PUBLIC kosmic_theory_interface)

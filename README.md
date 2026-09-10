@@ -84,4 +84,4 @@ build.
 
 ## License
 
-TBD.
+Apache-v2.0.

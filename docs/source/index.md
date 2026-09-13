@@ -1,52 +1,23 @@
 # Kosmic Docs
 
-Kosmic
-======
+Kosmic is a general-purpose, multi-facade lattice field theory simulator, developed with cosmological research in mind. 
+The main goal of kosmic is to be able to provide:
 
-A generic lattice field theory simulator for cosmological field dynamics.
+1. A generic field-theory simulator, in a generic metric (currently only FLRW and Minkowski).
+2. Modular and Extensibility for further ad-hoc developments, extractions and research-specific pipelines.
+3. Optimizations, and modern approaches to computation of lattice field theory, scpecially for cosmology.
 
-Kosmic provides a modular numerical framework for evolving field theories
-on discrete spatial lattices, with particular emphasis on Abelian Higgs
-cosmic string networks.
+Kosmic provides clean and modular interface to define new theories, metrics, and aims to support different backends (cpu, gpu).
+It also provides algorithmic methods such as adaptive-mesh refinement and augmentation, out-of-the-box, to gain better performance for large ensemble requirements such as simulation-based inference pipelines.
 
-[Get Started] [Architecture] [Physics] [C++ API]
 
-Why Kosmic?
------------
+In this documentation we provide necessary knowledge to start working with kosmic, and to develop custom simulations. 
 
-    Field Theory
-         │
-         ▼
-    Discretization
-         │
-         ▼
-    Lattice State
-         │
-         ▼
-    Time Integrator
-         │
-         ▼
-    Execution Backend
-         │
-         ▼
-    Observables / Snapshots
+```{toctree}
+:maxdepth: 2
+:numbered:
 
-Core capabilities
------------------
+getting-started/index
 
-* Generic lattice fields
-* Pluggable field theories
-* Metric-aware evolution
-* CPU reference backend
-* CUDA backend
-* Adaptive mesh refinement
-* HDF5 simulation data
-* Experiment provenance
 
-Scientific scope
-----------------
-
-Kosmic is currently developed around Abelian Higgs cosmic string
-simulations for gravitational-wave research.
-
-Read more → Physics
+```

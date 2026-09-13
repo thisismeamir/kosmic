@@ -28,7 +28,6 @@
 #include <cmath>
 #include <iostream>
 
-
 #include "kosmic/geometry/Metric.hpp"
 #include "kosmic/integrator/LeapFrogIntegrator.hpp"
 #include "kosmic/templates/free_scalar/FreeScalarDynamics.hpp"
@@ -44,69 +43,69 @@ namespace {
 // Total energy = kinetic + gradient, summed over the lattice. For a free
 // scalar this should stay constant (up to leapfrog's own discretization
 // error) over the run -- our first real correctness check.
-double TotalEnergy(const CpuLatticeScalarField& fields,
-                    const CpuLatticeScalarField& fieldsDot, double dx) {
-    double energy = 0.0;
-    const unsigned int sizeX = fields.SizeX();
-    const unsigned int sizeY = fields.SizeY();
-    const unsigned int sizeZ = fields.SizeZ();
+double TotalEnergy(const CpuLatticeScalarField &fields,
+                   const CpuLatticeScalarField &fieldsDot, double dx) {
+  double energy = 0.0;
+  const unsigned int sizeX = fields.SizeX();
+  const unsigned int sizeY = fields.SizeY();
+  const unsigned int sizeZ = fields.SizeZ();
 
-    for (unsigned int x = 0; x < sizeX; ++x) {
-        for (unsigned int y = 0; y < sizeY; ++y) {
-            for (unsigned int z = 0; z < sizeZ; ++z) {
-                double velocity = fieldsDot.At(x, y, z, 0);
-                double kinetic = 0.5 * velocity * velocity;
+  for (unsigned int x = 0; x < sizeX; ++x) {
+    for (unsigned int y = 0; y < sizeY; ++y) {
+      for (unsigned int z = 0; z < sizeZ; ++z) {
+        double velocity = fieldsDot.At(x, y, z, 0);
+        double kinetic = 0.5 * velocity * velocity;
 
-                // Forward-difference gradient in x only, matching the
-                // plane wave's only direction of variation.
-                unsigned int xNext = (x + 1) % sizeX;
-                double dPhiDx = (fields.At(xNext, y, z, 0) - fields.At(x, y, z, 0)) / dx;
-                double gradient = 0.5 * dPhiDx * dPhiDx;
+        // Forward-difference gradient in x only, matching the
+        // plane wave's only direction of variation.
+        unsigned int xNext = (x + 1) % sizeX;
+        double dPhiDx =
+            (fields.At(xNext, y, z, 0) - fields.At(x, y, z, 0)) / dx;
+        double gradient = 0.5 * dPhiDx * dPhiDx;
 
-                energy += kinetic + gradient;
-            }
-        }
+        energy += kinetic + gradient;
+      }
     }
-    return energy;
+  }
+  return energy;
 }
 
-}  // namespace
+} // namespace
 
 int main() {
-    const unsigned int latticeSize = 32;
-    const double dx = 1.0;
-    const double dt = 0.1;
-    const unsigned int numSteps = 5000;
-    const unsigned int reportEvery = 10;
+  const unsigned int latticeSize = 32;
+  const double dx = 1.0;
+  const double dt = 0.1;
+  const unsigned int numSteps = 5000;
+  const unsigned int reportEvery = 10;
 
-    CpuLatticeScalarField fields(latticeSize, latticeSize, latticeSize);
-    CpuLatticeScalarField fieldsDot(latticeSize, latticeSize, latticeSize);
+  CpuLatticeScalarField fields(latticeSize, latticeSize, latticeSize);
+  CpuLatticeScalarField fieldsDot(latticeSize, latticeSize, latticeSize);
 
-    FreeScalarParameters params;
-    FreeScalarDynamics<CpuLatticeScalarField, FlatMetric> dynamics;
-    FlatMetric metric;
+  FreeScalarParameters params;
+  FreeScalarDynamics<CpuLatticeScalarField, FlatMetric> dynamics;
+  FlatMetric metric;
 
-    kosmic::theory::InitParams initParams;
-    dynamics.Initialize(fields, params, metric, initParams);
-    // fieldsDot left at its zero-initialized default -- correct initial
-    // velocity for a standing wave.
+  kosmic::theory::InitParams initParams;
+  dynamics.Initialize(fields, params, metric, initParams);
+  // fieldsDot left at its zero-initialized default -- correct initial
+  // velocity for a standing wave.
 
-    kosmic::integrator::LeapfrogIntegrator<CpuLatticeScalarField, FlatMetric,
-                                            FreeScalarParameters,
-                                            FreeScalarDynamics<CpuLatticeScalarField, FlatMetric>>
-        integrator(dynamics, params, metric);
+  kosmic::integrator::LeapfrogIntegrator<
+      CpuLatticeScalarField, FlatMetric, FreeScalarParameters,
+      FreeScalarDynamics<CpuLatticeScalarField, FlatMetric>>
+      integrator(dynamics, params, metric);
 
-    double time = 0.0;
-    for (unsigned int step = 0; step < numSteps; ++step) {
-        integrator.Step(fields, fieldsDot, time, dt);
-        time += dt;
+  double time = 0.0;
+  for (unsigned int step = 0; step < numSteps; ++step) {
+    integrator.Step(fields, fieldsDot, time, dt);
+    time += dt;
 
-        if (step % reportEvery == 0) {
-            std::cout << "step " << step << "  t = " << time
-                      << "  energy = " << TotalEnergy(fields, fieldsDot, dx)
-                      << "\n";
-        }
+    if (step % reportEvery == 0) {
+      std::cout << "step " << step << "  t = " << time
+                << "  energy = " << TotalEnergy(fields, fieldsDot, dx) << "\n";
     }
+  }
 
-    return 0;
+  return 0;
 }
